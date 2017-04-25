@@ -1,0 +1,41 @@
+{
+  "name": "crunker",
+  "version": "0.0.1",
+  "description": "Simple way to merge or concatenate audio files with the Web Audio API.",
+  "main": "src/crunker.js",
+  "directories": {
+    "test": "test",
+    "src": "src"
+  },
+  "scripts": {
+    "test": "npm run compile && mocha-phantomjs -p node_modules/phantomjs/bin/phantomjs test/test.html",
+    "compile": "babel src/crunker.js > dist/crunker.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jackedgson/crunker.git"
+  },
+  "keywords": [
+    "web-audio-api",
+    "es6",
+    "merge",
+    "concatonate",
+    "append",
+    "export",
+    "download"
+  ],
+  "author": "Jack Edgson",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jackedgson/crunker/issues"
+  },
+  "homepage": "https://github.com/jackedgson/crunker#readme",
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-plugin-transform-es2015-classes": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "chai": "^3.5.0",
+    "mocha-phantomjs": "3.4.1",
+    "phantomjs": "^2.1.7"
+  }
+}
