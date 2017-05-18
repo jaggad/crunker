@@ -7,7 +7,8 @@ class Crunker {
 	}
 
 	_createContext() {
-		window.AudioContext = window.AudioContext || window.webkitAudioContext;
+		console.log(window.AudioContext);
+		window.AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext;
 		return new AudioContext();
 	}
 
