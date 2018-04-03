@@ -1,6 +1,11 @@
 # Crunker
 
+**This project is not actively maintained and serves as an example only**
+
 Simple way to merge, concatenate, play, export and download audio files with the Web Audio API.
+
+* No dependencies
+* Tiny 1.8kB gzipped
 
 # Example
 
