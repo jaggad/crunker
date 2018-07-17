@@ -26,7 +26,7 @@ audio.fetchAudio('/song.mp3', '/another-song.mp3')
 		audio.download(output.blob);
 		document.append(output.element);
 		console.log(output.url);
-	});
+	})
 	.catch((error) => {
 		// => Error Message
 	});
@@ -44,7 +44,7 @@ let audio = new Crunker();
 audio.fetchAudio('/voice.mp3', '/shell.mp3')
 	.then(buffers => audio.mergeAudio(buffers))
 	.then(merged => audio.export(merged, 'audio/mp3'))
-	.then(output => audio.download(output.blob)})
+	.then(output => audio.download(output.blob))
 	.catch(error => throw new Error(error))
 ```
 
