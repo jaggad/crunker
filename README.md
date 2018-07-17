@@ -45,7 +45,7 @@ audio.fetchAudio('/voice.mp3', '/shell.mp3')
 	.then(buffers => audio.mergeAudio(buffers))
 	.then(merged => audio.export(merged, 'audio/mp3'))
 	.then(output => audio.download(output.blob))
-	.catch(error => throw new Error(error))
+	.catch(error => {throw new Error(error)})
 ```
 
 # Methods
