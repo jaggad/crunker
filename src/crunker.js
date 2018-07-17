@@ -32,7 +32,7 @@ class Crunker {
 	}
 
 	concatAudio(buffers) {
-		let output = this._context.createBuffer(1, sampleRate*this._totalDuration(buffers), sampleRate),
+		let output = this._context.createBuffer(1, sampleRate*this._totalLength(buffers), sampleRate),
 			offset = 0;
 		buffers.map(buffer => {
 			output.getChannelData(0).set(buffer.getChannelData(0), offset);
@@ -85,8 +85,8 @@ class Crunker {
 		return Math.max.apply(Math, buffers.map(buffer => buffer.duration));
 	}
 
-	_totalDuration(buffers) {
-		return buffers.map(buffer => buffer.duration).reduce((a, b) => a + b, 0);
+	_totalLength(buffers) {
+		return buffers.map(buffer => buffer.length).reduce((a, b) => a + b, 0);
 	}
 
 	_isSupported() {
