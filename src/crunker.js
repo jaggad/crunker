@@ -1,5 +1,10 @@
 'use strict';
-const sampleRate = 48000; // Default: 44100
+
+/**
+ * See: https://github.com/jackedgson/crunker/issues/4
+ * This number should reflect the sample rate in Hz of the audio files.
+ */
+const sampleRate = 44100; // or 48000 (Hz) 
 
 class Crunker {
 
