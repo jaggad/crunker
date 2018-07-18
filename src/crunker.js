@@ -1,5 +1,11 @@
 'use strict';
 
+/**
+ * See: https://github.com/jackedgson/crunker/issues/4
+ * This number should reflect the sample rate in Hz of the audio files.
+ */
+const sampleRate = 44100; // or 48000 (Hz) 
+
 class Crunker {
 
 	constructor() {
@@ -20,7 +26,7 @@ class Crunker {
 	}
 
 	mergeAudio(buffers) {
-		let output = this._context.createBuffer(1, 44100*this._maxDuration(buffers), 44100);
+		let output = this._context.createBuffer(1, sampleRate*this._maxDuration(buffers), sampleRate);
 
 		buffers.map(buffer => {
 			for (let i = buffer.getChannelData(0).length - 1; i >= 0; i--) {
@@ -31,7 +37,7 @@ class Crunker {
 	}
 
 	concatAudio(buffers) {
-		let output = this._context.createBuffer(1, 44100*this._totalDuration(buffers), 44100),
+		let output = this._context.createBuffer(1, sampleRate*this._totalLength(buffers), sampleRate),
 			offset = 0;
 		buffers.map(buffer => {
 			output.getChannelData(0).set(buffer.getChannelData(0), offset);
@@ -84,8 +90,8 @@ class Crunker {
 		return Math.max.apply(Math, buffers.map(buffer => buffer.duration));
 	}
 
-	_totalDuration(buffers) {
-		return buffers.map(buffer => buffer.duration).reduce((a, b) => a + b, 0);
+	_totalLength(buffers) {
+		return buffers.map(buffer => buffer.length).reduce((a, b) => a + b, 0);
 	}
 
 	_isSupported() {
@@ -103,8 +109,8 @@ class Crunker {
 		view.setUint32(16, 16, true);
 		view.setUint16(20, 1, true);
 		view.setUint16(22, 2, true);
-		view.setUint32(24, 44100, true);
-		view.setUint32(28, 44100 * 4, true);
+		view.setUint32(24, sampleRate, true);
+		view.setUint32(28, sampleRate * 4, true);
 		view.setUint16(32, 4, true);
 		view.setUint16(34, 16, true);
 		this._writeString(view, 36, 'data');
