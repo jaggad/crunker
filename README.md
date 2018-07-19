@@ -4,35 +4,36 @@
 
 Simple way to merge, concatenate, play, export and download audio files with the Web Audio API.
 
-* No dependencies
-* Tiny 1.8kB gzipped
+- No dependencies
+- Tiny 1.8kB gzipped
 
 # Example
 
 ```javascript
 let audio = new Crunker();
 
-audio.fetchAudio('/song.mp3', '/another-song.mp3')
-	.then(buffers => {
-		// => [AudioBuffer, AudioBuffer]
-		audio.mergeAudio(buffers)
-	})
-	.then(merged => {
-		// => AudioBuffer
-		audio.export(merged, 'audio/mp3')
-	})
-	.then(output => {
-		// => {blob, element, url}
-		audio.download(output.blob);
-		document.append(output.element);
-		console.log(output.url);
-	})
-	.catch((error) => {
-		// => Error Message
-	});
+audio
+  .fetchAudio("/song.mp3", "/another-song.mp3")
+  .then(buffers => {
+    // => [AudioBuffer, AudioBuffer]
+    audio.mergeAudio(buffers);
+  })
+  .then(merged => {
+    // => AudioBuffer
+    audio.export(merged, "audio/mp3");
+  })
+  .then(output => {
+    // => {blob, element, url}
+    audio.download(output.blob);
+    document.append(output.element);
+    console.log(output.url);
+  })
+  .catch(error => {
+    // => Error Message
+  });
 
 audio.notSupported(() => {
-	// Handle no browser support
+  // Handle no browser support
 });
 ```
 
@@ -41,11 +42,14 @@ audio.notSupported(() => {
 ```javascript
 let audio = new Crunker();
 
-audio.fetchAudio('/voice.mp3', '/shell.mp3')
-	.then(buffers => audio.mergeAudio(buffers))
-	.then(merged => audio.export(merged, 'audio/mp3'))
-	.then(output => audio.download(output.blob))
-	.catch(error => {throw new Error(error)})
+audio
+  .fetchAudio("/voice.mp3", "/background.mp3")
+  .then(buffers => audio.mergeAudio(buffers))
+  .then(merged => audio.export(merged, "audio/mp3"))
+  .then(output => audio.download(output.blob))
+  .catch(error => {
+    throw new Error(error);
+  });
 ```
 
 # Methods

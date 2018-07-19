@@ -1,7 +1,8 @@
 {
   "name": "crunker",
   "version": "0.2.0",
-  "description": "Simple way to merge or concatenate audio files with the Web Audio API.",
+  "description":
+    "Simple way to merge or concatenate audio files with the Web Audio API.",
   "main": "dist/crunker.js",
   "directories": {
     "test": "test",
