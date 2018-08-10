@@ -1,3 +1,5 @@
+import Crunker from 'crunker';
+
 describe("Crunker", () => {
   const url =
     "https://www.freesound.org/data/previews/131/131660_2398403-lq.mp3";
