@@ -1,8 +1,7 @@
 {
   "name": "crunker",
   "version": "0.2.0",
-  "description":
-    "Simple way to merge or concatenate audio files with the Web Audio API.",
+  "description": "Simple way to merge or concatenate audio files with the Web Audio API.",
   "main": "dist/crunker.js",
   "directories": {
     "test": "test",
@@ -11,7 +10,7 @@
   "scripts": {
     "build:test": "webpack --config webpack.test.config.js --mode development",
     "build:prod": "webpack --config webpack.config.js --mode production",
-    "prepare": "npm run build"
+    "prepare": "npm run build:prod"
   },
   "repository": {
     "type": "git",
@@ -21,7 +20,7 @@
     "web-audio-api",
     "es6",
     "merge",
-    "concatonate",
+    "concatenate",
     "append",
     "export",
     "download"
