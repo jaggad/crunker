@@ -5,7 +5,10 @@ module.exports = {
   entry: "./crunker.js",
   output: {
     path: __dirname + "/dist",
-    filename: "crunker.js"
+    filename: "crunker.js",
+    library: "Crunker",
+    libraryTarget: "umd",
+    umdNamedDefine: true
   },
   module: {
     rules: [

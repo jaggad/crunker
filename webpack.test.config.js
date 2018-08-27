@@ -9,7 +9,10 @@ module.exports = {
   devtool: 'inline-source-map',
   output: {
     path: testDir,
-    filename: "test.bundle.js"
+    filename: "test.bundle.js",
+    library: "Crunker",
+    libraryTarget: "umd",
+    umdNamedDefine: true
   },
   resolve: {
       alias: {
