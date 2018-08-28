@@ -7,6 +7,15 @@ Simple way to merge, concatenate, play, export and download audio files with the
 - No dependencies
 - Tiny 1.8kB gzipped
 
+# Installation
+
+```sh
+yarn add crunker
+```
+```sh
+npm install crunker
+```
+
 # Example
 
 ```javascript
