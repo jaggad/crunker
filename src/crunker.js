@@ -1,13 +1,8 @@
 "use strict";
 
-/**
- * See: https://github.com/jackedgson/crunker/issues/4
- * This number should reflect the sample rate in Hz of the audio files.
- */
-const sampleRate = 44100; // or 48000 (Hz)
-
-class Crunker {
-  constructor() {
+export default class Crunker {
+  constructor({ sampleRate = 44100 } = {}) {
+    this._sampleRate = sampleRate;
     this._context = this._createContext();
   }
 
@@ -32,8 +27,8 @@ class Crunker {
   mergeAudio(buffers) {
     let output = this._context.createBuffer(
       1,
-      sampleRate * this._maxDuration(buffers),
-      sampleRate
+      this._sampleRate * this._maxDuration(buffers),
+      this._sampleRate
     );
 
     buffers.map(buffer => {
@@ -47,8 +42,8 @@ class Crunker {
   concatAudio(buffers) {
     let output = this._context.createBuffer(
         1,
-        sampleRate * this._totalLength(buffers),
-        sampleRate
+        this._totalLength(buffers),
+        this._sampleRate
       ),
       offset = 0;
     buffers.map(buffer => {
@@ -121,8 +116,8 @@ class Crunker {
     view.setUint32(16, 16, true);
     view.setUint16(20, 1, true);
     view.setUint16(22, 2, true);
-    view.setUint32(24, sampleRate, true);
-    view.setUint32(28, sampleRate * 4, true);
+    view.setUint32(24, this._sampleRate, true);
+    view.setUint32(28, this._sampleRate * 4, true);
     view.setUint16(32, 4, true);
     view.setUint16(34, 16, true);
     this._writeString(view, 36, "data");

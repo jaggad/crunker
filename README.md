@@ -54,9 +54,10 @@ audio
 
 # Methods
 
-## new Crunker()
+## new Crunker({ sampleRate: 44100 })
 
-Create a new Crunker, no configuration options are required.
+Create a new Crunker.
+You may optionally provide an object with a `sampleRate` key, defaults to 44100.
 
 ## crunker.fetchAudio(songURL, anotherSongURL)
 
