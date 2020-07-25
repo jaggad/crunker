@@ -2,8 +2,12 @@
 
 export default class Crunker {
   constructor({ sampleRate = 44100 } = {}) {
-    this._sampleRate = sampleRate;
     this._context = this._createContext();
+    this._sampleRate = sampleRate;
+
+    if (this._context.sampleRate > sampleRate) {
+      this._sampleRate = this._context.sampleRate;
+    }
   }
 
   _createContext() {
