@@ -61,6 +61,17 @@ audio
   });
 ```
 
+# [Graphic Representation of Methods](https://github.com/jackedgson/crunker/issues/16)
+
+## Merge
+
+![merge](https://user-images.githubusercontent.com/12958674/88806278-968f0680-d186-11ea-9cb5-8ef2606ffcc7.png)
+
+## Concat
+
+![concat](https://user-images.githubusercontent.com/12958674/88806297-9d1d7e00-d186-11ea-8cd2-c64cb0324845.png)
+
+
 # Methods
 
 ## new Crunker({ sampleRate: 44100 })
