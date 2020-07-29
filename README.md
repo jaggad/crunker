@@ -25,11 +25,11 @@ audio
   .fetchAudio("/song.mp3", "/another-song.mp3")
   .then(buffers => {
     // => [AudioBuffer, AudioBuffer]
-    audio.mergeAudio(buffers);
+    return audio.mergeAudio(buffers);
   })
   .then(merged => {
     // => AudioBuffer
-    audio.export(merged, "audio/mp3");
+    return audio.export(merged, "audio/mp3");
   })
   .then(output => {
     // => {blob, element, url}
