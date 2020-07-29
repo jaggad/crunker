@@ -34,7 +34,7 @@ audio
   .then(output => {
     // => {blob, element, url}
     audio.download(output.blob);
-    document.append(output.element);
+    document.body.append(output.element);
     console.log(output.url);
   })
   .catch(error => {
