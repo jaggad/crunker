@@ -1,4 +1,5 @@
 "use strict";
+const { AudioContext } = require("standardized-audio-context");
 
 export default class Crunker {
   constructor({ sampleRate = 44100 } = {}) {
@@ -7,10 +8,12 @@ export default class Crunker {
   }
 
   _createContext() {
+    /*
     window.AudioContext =
       window.AudioContext ||
       window.webkitAudioContext ||
       window.mozAudioContext;
+    */
     return new AudioContext();
   }
 

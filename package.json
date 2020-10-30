@@ -48,5 +48,8 @@
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
+  },
+  "dependencies": {
+    "standardized-audio-context": "^25.1.4"
   }
 }
