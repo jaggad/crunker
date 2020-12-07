@@ -1,6 +1,8 @@
-const webpack = require('webpack');
+const webpack = require("webpack");
+const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
+  mode: "production",
   context: __dirname + "/src",
   entry: "./crunker.js",
   output: {
@@ -8,23 +10,26 @@ module.exports = {
     filename: "crunker.js",
     library: "Crunker",
     libraryTarget: "umd",
-    umdNamedDefine: true
+    umdNamedDefine: true,
   },
   module: {
     rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
+        loader: "babel-loader",
         query: {
-          presets: ['es2015']
-        }
-      }
-    ]
+          presets: ["es2015"],
+        },
+      },
+    ],
+  },
+  optimization: {
+    minimizer: [new TerserPlugin()],
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
-    })
-  ]
+      "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
+    }),
+  ],
 };
