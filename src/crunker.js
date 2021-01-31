@@ -28,29 +28,40 @@ export default class Crunker {
   }
 
   mergeAudio(buffers) {
-    let output = this._context.createBuffer(
-      1,
+    const output = this._context.createBuffer(
+      this._maxNumberOfChannels(buffers),
       this._sampleRate * this._maxDuration(buffers),
-      this._sampleRate
+      this._sampleRate,
     );
 
-    buffers.map(buffer => {
-      for (let i = buffer.getChannelData(0).length - 1; i >= 0; i--) {
-        output.getChannelData(0)[i] += buffer.getChannelData(0)[i];
+    buffers.forEach((buffer) => {
+      for (let channelNumber = 0; channelNumber < buffer.numberOfChannels; channelNumber += 1) {
+        const outputData = output.getChannelData(channelNumber);
+        const bufferData = buffer.getChannelData(channelNumber);
+
+        for (let i = buffer.getChannelData(channelNumber).length - 1; i >= 0; i -= 1) {
+          outputData[i] += bufferData[i];
+        }
+
+        output.getChannelData(channelNumber).set(outputData);
       }
     });
     return output;
   }
 
   concatAudio(buffers) {
-    let output = this._context.createBuffer(
-        1,
-        this._totalLength(buffers),
-        this._sampleRate
-      ),
-      offset = 0;
-    buffers.map(buffer => {
-      output.getChannelData(0).set(buffer.getChannelData(0), offset);
+    const output = this._context.createBuffer(
+      this._maxNumberOfChannels(buffers),
+      this._totalLength(buffers),
+      this._sampleRate,
+    );
+    let offset = 0;
+
+    buffers.forEach((buffer) => {
+      for (let channelNumber = 0; channelNumber < buffer.numberOfChannels; channelNumber += 1) {
+        output.getChannelData(channelNumber).set(buffer.getChannelData(channelNumber), offset);
+      }
+
       offset += buffer.length;
     });
     return output;
@@ -98,6 +109,10 @@ export default class Crunker {
 
   _maxDuration(buffers) {
     return Math.max.apply(Math, buffers.map(buffer => buffer.duration));
+  }
+
+  _maxNumberOfChannels(buffers) {
+    return Math.max.apply(Math, buffers.map((buffer) => buffer.numberOfChannels));
   }
 
   _totalLength(buffers) {
