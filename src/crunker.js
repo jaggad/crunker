@@ -56,6 +56,32 @@ export default class Crunker {
     return output;
   }
 
+  padAudio(buffer, padStart = 0, seconds = 0) {
+    if (seconds === 0) return buffer;
+    if (padStart < 0) throw new Error('Crunker: Parameter "padStart" in padAudio must be positive');
+    if (seconds < 0) throw new Error('Crunker: Parameter "seconds" in padAudio must be positive');
+
+    const updatedBuffer = this._context.createBuffer(
+      buffer.numberOfChannels,
+      buffer.length + seconds * buffer.sampleRate,
+      buffer.sampleRate,
+    );
+
+    for (let channelNumber = 0; channelNumber < buffer.numberOfChannels; channelNumber += 1) {
+      const channelData = buffer.getChannelData(channelNumber);
+      updatedBuffer.getChannelData(channelNumber)
+        .set(channelData.subarray(0, padStart * buffer.sampleRate + 1), 0);
+
+      updatedBuffer.getChannelData(channelNumber)
+        .set(
+          channelData.subarray(padStart * buffer.sampleRate + 2, updatedBuffer.length + 1),
+          (padStart + seconds) * buffer.sampleRate,
+        );
+    }
+
+    return updatedBuffer;
+  }
+
   play(buffer) {
     const source = this._context.createBufferSource();
     source.buffer = buffer;
