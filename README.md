@@ -81,44 +81,48 @@ You may optionally provide an object with a `sampleRate` key, defaults to 44100.
 
 ## crunker.fetchAudio(songURL, anotherSongURL)
 
-Fetch one or more audio files.
+Fetch one or more audio files.  
 Returns: an array of audio buffers in the order they were fetched.
 
 ## crunker.mergeAudio(arrayOfBuffers);
 
-Merge two or more audio buffers.
+Merge two or more audio buffers.  
 Returns: a single AudioBuffer object.
 
 ## crunker.concatAudio(arrayOfBuffers);
 
-Concatenate two or more audio buffers in the order specified.
+Concatenate two or more audio buffers in the order specified.  
+Returns: a single AudioBuffer object.
+
+## crunker.padAudio(buffer, padStart, seconds);
+Pad the audio with silence, at the beginning, the end, or any specified points through the audio.  
 Returns: a single AudioBuffer object.
 
 ## crunker.export(buffer, type);
 
-Export an audio buffers with MIME type option.
-Type: `'audio/mp3', 'audio/wav', 'audio/ogg'`.
+Export an audio buffers with MIME type option.  
+Type: `'audio/mp3', 'audio/wav', 'audio/ogg'`.  
 Returns: an object containing the blob object, url, and an audio element object.
 
 ## crunker.download(blob, filename);
 
-Automatically download an exported audio blob with optional filename.
+Automatically download an exported audio blob with optional filename.  
 Returns: the `<a></a>` element used to simulate the automatic download.
 
 ## crunker.download(blob, filename);
 
-Automatically download an exported audio blob with optional filename.
-Filename: String not containing the .mp3, .wav, or .ogg file extension.
+Automatically download an exported audio blob with optional filename.  
+Filename: String not containing the .mp3, .wav, or .ogg file extension.  
 Returns: the `<a></a>` element used to simulate the automatic download.
 
 ## crunker.play(blob);
 
-Starts playing the exported audio blob in the background.
+Starts playing the exported audio blob in the background.  
 Returns: the audio source object.
 
 ## audio.notSupported(callback);
 
-Execute custom code if Web Audio API is not supported by the users browser.
+Execute custom code if Web Audio API is not supported by the users browser.  
 Returns: The callback function.
 
 # License
