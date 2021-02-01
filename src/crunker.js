@@ -1,5 +1,4 @@
 "use strict";
-const { AudioContext } = require("standardized-audio-context");
 
 export default class Crunker {
   constructor({ sampleRate = 44100 } = {}) {
@@ -8,18 +7,16 @@ export default class Crunker {
   }
 
   _createContext() {
-    /*
     window.AudioContext =
       window.AudioContext ||
       window.webkitAudioContext ||
       window.mozAudioContext;
-    */
     return new AudioContext();
   }
 
   async fetchAudio(...filepaths) {
-    const files = filepaths.map(async filepath => {
-      const buffer = await fetch(filepath).then(response =>
+    const files = filepaths.map(async (filepath) => {
+      const buffer = await fetch(filepath).then((response) =>
         response.arrayBuffer()
       );
       return await this._context.decodeAudioData(buffer);
@@ -31,15 +28,23 @@ export default class Crunker {
     const output = this._context.createBuffer(
       this._maxNumberOfChannels(buffers),
       this._sampleRate * this._maxDuration(buffers),
-      this._sampleRate,
+      this._sampleRate
     );
 
     buffers.forEach((buffer) => {
-      for (let channelNumber = 0; channelNumber < buffer.numberOfChannels; channelNumber += 1) {
+      for (
+        let channelNumber = 0;
+        channelNumber < buffer.numberOfChannels;
+        channelNumber += 1
+      ) {
         const outputData = output.getChannelData(channelNumber);
         const bufferData = buffer.getChannelData(channelNumber);
 
-        for (let i = buffer.getChannelData(channelNumber).length - 1; i >= 0; i -= 1) {
+        for (
+          let i = buffer.getChannelData(channelNumber).length - 1;
+          i >= 0;
+          i -= 1
+        ) {
           outputData[i] += bufferData[i];
         }
 
@@ -53,13 +58,19 @@ export default class Crunker {
     const output = this._context.createBuffer(
       this._maxNumberOfChannels(buffers),
       this._totalLength(buffers),
-      this._sampleRate,
+      this._sampleRate
     );
     let offset = 0;
 
     buffers.forEach((buffer) => {
-      for (let channelNumber = 0; channelNumber < buffer.numberOfChannels; channelNumber += 1) {
-        output.getChannelData(channelNumber).set(buffer.getChannelData(channelNumber), offset);
+      for (
+        let channelNumber = 0;
+        channelNumber < buffer.numberOfChannels;
+        channelNumber += 1
+      ) {
+        output
+          .getChannelData(channelNumber)
+          .set(buffer.getChannelData(channelNumber), offset);
       }
 
       offset += buffer.length;
@@ -69,24 +80,39 @@ export default class Crunker {
 
   padAudio(buffer, padStart = 0, seconds = 0) {
     if (seconds === 0) return buffer;
-    if (padStart < 0) throw new Error('Crunker: Parameter "padStart" in padAudio must be positive');
-    if (seconds < 0) throw new Error('Crunker: Parameter "seconds" in padAudio must be positive');
+    if (padStart < 0)
+      throw new Error(
+        'Crunker: Parameter "padStart" in padAudio must be positive'
+      );
+    if (seconds < 0)
+      throw new Error(
+        'Crunker: Parameter "seconds" in padAudio must be positive'
+      );
 
     const updatedBuffer = this._context.createBuffer(
       buffer.numberOfChannels,
       buffer.length + seconds * buffer.sampleRate,
-      buffer.sampleRate,
+      buffer.sampleRate
     );
 
-    for (let channelNumber = 0; channelNumber < buffer.numberOfChannels; channelNumber += 1) {
+    for (
+      let channelNumber = 0;
+      channelNumber < buffer.numberOfChannels;
+      channelNumber += 1
+    ) {
       const channelData = buffer.getChannelData(channelNumber);
-      updatedBuffer.getChannelData(channelNumber)
+      updatedBuffer
+        .getChannelData(channelNumber)
         .set(channelData.subarray(0, padStart * buffer.sampleRate + 1), 0);
 
-      updatedBuffer.getChannelData(channelNumber)
+      updatedBuffer
+        .getChannelData(channelNumber)
         .set(
-          channelData.subarray(padStart * buffer.sampleRate + 2, updatedBuffer.length + 1),
-          (padStart + seconds) * buffer.sampleRate,
+          channelData.subarray(
+            padStart * buffer.sampleRate + 2,
+            updatedBuffer.length + 1
+          ),
+          (padStart + seconds) * buffer.sampleRate
         );
     }
 
@@ -110,7 +136,7 @@ export default class Crunker {
     return {
       blob: audioBlob,
       url: this._renderURL(audioBlob),
-      element: this._renderAudioElement(audioBlob, type)
+      element: this._renderAudioElement(audioBlob, type),
     };
   }
 
@@ -134,15 +160,21 @@ export default class Crunker {
   }
 
   _maxDuration(buffers) {
-    return Math.max.apply(Math, buffers.map(buffer => buffer.duration));
+    return Math.max.apply(
+      Math,
+      buffers.map((buffer) => buffer.duration)
+    );
   }
 
   _maxNumberOfChannels(buffers) {
-    return Math.max.apply(Math, buffers.map((buffer) => buffer.numberOfChannels));
+    return Math.max.apply(
+      Math,
+      buffers.map((buffer) => buffer.numberOfChannels)
+    );
   }
 
   _totalLength(buffers) {
-    return buffers.map(buffer => buffer.length).reduce((a, b) => a + b, 0);
+    return buffers.map((buffer) => buffer.length).reduce((a, b) => a + b, 0);
   }
 
   _isSupported() {

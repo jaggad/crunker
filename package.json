@@ -1,6 +1,6 @@
 {
   "name": "crunker",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Simple way to merge or concatenate audio files with the Web Audio API.",
   "main": "dist/crunker.js",
   "directories": {
@@ -50,7 +50,5 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
-  "dependencies": {
-    "standardized-audio-context": "^25.1.4"
-  }
+  "dependencies": {}
 }
