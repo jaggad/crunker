@@ -5,7 +5,7 @@
 Simple way to merge, concatenate, play, export and download audio files with the Web Audio API.
 
 - No dependencies
-- Tiny 1.8kB gzipped
+- Tiny 2kB gzipped
 
 # Installation
 
@@ -19,21 +19,21 @@ npm install crunker
 # Example
 
 ```javascript
-let audio = new Crunker();
+let crunker = new Crunker();
 
-audio
+crunker
   .fetchAudio("/song.mp3", "/another-song.mp3")
   .then(buffers => {
     // => [AudioBuffer, AudioBuffer]
-    return audio.mergeAudio(buffers);
+    return crunker.mergeAudio(buffers);
   })
   .then(merged => {
     // => AudioBuffer
-    return audio.export(merged, "audio/mp3");
+    return crunker.export(merged, "audio/mp3");
   })
   .then(output => {
     // => {blob, element, url}
-    audio.download(output.blob);
+    crunker.download(output.blob);
     document.body.append(output.element);
     console.log(output.url);
   })
@@ -41,7 +41,7 @@ audio
     // => Error Message
   });
 
-audio.notSupported(() => {
+crunker.notSupported(() => {
   // Handle no browser support
 });
 ```
@@ -49,13 +49,13 @@ audio.notSupported(() => {
 # Condensed Example
 
 ```javascript
-let audio = new Crunker();
+let crunker = new Crunker();
 
-audio
+crunker
   .fetchAudio("/voice.mp3", "/background.mp3")
-  .then(buffers => audio.mergeAudio(buffers))
-  .then(merged => audio.export(merged, "audio/mp3"))
-  .then(output => audio.download(output.blob))
+  .then(buffers => crunker.mergeAudio(buffers))
+  .then(merged => crunker.export(merged, "audio/mp3"))
+  .then(output => crunker.download(output.blob))
   .catch(error => {
     throw new Error(error);
   });
