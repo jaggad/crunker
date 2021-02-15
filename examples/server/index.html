@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Audio from Server - Crunker Example</title>
+	<script src="https://unpkg.com/crunker@0.4.0/dist/crunker.js" ></script>
+</head>
+<body>
+	<button onclick="handleMerge()">Merge</button>
+	<button onclick="handleConcat()">Concat</button>
+
+	<script>
+		const sampleRate	= 48000,
+			audioPaths		= ["./1.mp3", "./2.mp3"]
+
+		function handleMerge() {
+			doTheWork("mergeAudio", "merge")
+		}
+
+		function handleConcat() {
+			doTheWork("concatAudio", "concat")
+		}
+
+		async function doTheWork(task, filename) {
+			const crunker	= new Crunker.default({ sampleRate })
+			const buffers	= await crunker.fetchAudio(...audioPaths)
+			const merged	= await crunker[task](buffers)
+			const output	= await crunker.export(merged, "audio/mp3")
+			await crunker.download(output.blob, filename)
+		}
+
+		(new Crunker.default()).notSupported(() => {
+			window.alert("Browser unsupported!")
+
+			Array
+				.from(document.querySelectorAll("input[type=button]"))
+				.forEach(elem => elem.disabled = true)
+		})
+	</script>
+</body>
+</html>

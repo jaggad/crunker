@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Audio from Client - Crunker Example</title>
+	<style>
+		form {
+			display: flex;
+			flex-direction: column;
+			align-items: start;
+		}
+	</style>
+</head>
+<body>
+	<form>
+		<label>Sample rate: <input type="number" name="sampleRate" value="48000"></label>
+		<input type="file" name="audios" multiple accept="audio/*" />
+		<div>
+			<input type="button" name="mergeBtn" value="Merge">
+			<input type="button" name="concatBtn" value="Concat">
+		</div>
+	</form>
+
+	<script type="module">
+		import Crunker from "../../src/crunker.js"
+
+		document.querySelector("form").addEventListener("submit", e => e.preventDefault())
+
+		const inputSampleRate	= document.querySelector("input[name=sampleRate]"),
+			inputAudios			= document.querySelector("input[name=audios]")
+
+		document.querySelector("input[name=mergeBtn]")
+			.addEventListener("click", () => doTheWork("mergeAudio", "merge"))
+		document.querySelector("input[name=concatBtn]")
+			.addEventListener("click", () => doTheWork("concatAudio", "concat"))
+
+		async function doTheWork(task, filename) {
+			const { files } = inputAudios
+
+			if (files.length) {
+				const crunker	= new Crunker({ sampleRate: inputSampleRate.value })
+				// As we aren't using `crunker.fetchAudio`, we must convert the files to buffers manually,
+				// is the same code from the source, just condensed and without need to `fetch` the files.
+				const buffers	= await Promise.all(Array.from(files).map(async file => crunker._context.decodeAudioData(await file.arrayBuffer())))
+				const merged	= await crunker[task](buffers)
+				const output	= await crunker.export(merged, "audio/mp3")
+				await crunker.download(output.blob, filename)
+			}
+		}
+
+		(new Crunker()).notSupported(() => {
+			window.alert("Browser unsupported!")
+
+			Array
+				.from(document.querySelectorAll("input[type=button]"))
+				.forEach(elem => elem.disabled = true)
+		})
+	</script>
+</body>
+</html>
