@@ -107,11 +107,6 @@ Returns: an object containing the blob object, url, and an audio element object.
 ## crunker.download(blob, filename);
 
 Automatically download an exported audio blob with optional filename.  
-Returns: the `<a></a>` element used to simulate the automatic download.
-
-## crunker.download(blob, filename);
-
-Automatically download an exported audio blob with optional filename.  
 Filename: String not containing the .mp3, .wav, or .ogg file extension.  
 Returns: the `<a></a>` element used to simulate the automatic download.
 
