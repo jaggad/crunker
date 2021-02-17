@@ -5,7 +5,7 @@
 Simple way to merge, concatenate, play, export and download audio files with the Web Audio API.
 
 - No dependencies
-- Tiny 1.8kB gzipped
+- Tiny 2kB gzipped
 
 # Installation
 
@@ -19,21 +19,21 @@ npm install crunker
 # Example
 
 ```javascript
-let audio = new Crunker();
+let crunker = new Crunker();
 
-audio
+crunker
   .fetchAudio("/song.mp3", "/another-song.mp3")
   .then(buffers => {
     // => [AudioBuffer, AudioBuffer]
-    return audio.mergeAudio(buffers);
+    return crunker.mergeAudio(buffers);
   })
   .then(merged => {
     // => AudioBuffer
-    return audio.export(merged, "audio/mp3");
+    return crunker.export(merged, "audio/mp3");
   })
   .then(output => {
     // => {blob, element, url}
-    audio.download(output.blob);
+    crunker.download(output.blob);
     document.body.append(output.element);
     console.log(output.url);
   })
@@ -41,7 +41,7 @@ audio
     // => Error Message
   });
 
-audio.notSupported(() => {
+crunker.notSupported(() => {
   // Handle no browser support
 });
 ```
@@ -49,13 +49,13 @@ audio.notSupported(() => {
 # Condensed Example
 
 ```javascript
-let audio = new Crunker();
+let crunker = new Crunker();
 
-audio
+crunker
   .fetchAudio("/voice.mp3", "/background.mp3")
-  .then(buffers => audio.mergeAudio(buffers))
-  .then(merged => audio.export(merged, "audio/mp3"))
-  .then(output => audio.download(output.blob))
+  .then(buffers => crunker.mergeAudio(buffers))
+  .then(merged => crunker.export(merged, "audio/mp3"))
+  .then(output => crunker.download(output.blob))
   .catch(error => {
     throw new Error(error);
   });
@@ -71,7 +71,6 @@ audio
 
 ![concat](https://user-images.githubusercontent.com/12958674/88806297-9d1d7e00-d186-11ea-8cd2-c64cb0324845.png)
 
-
 # Methods
 
 ## new Crunker({ sampleRate: 44100 })
@@ -81,48 +80,44 @@ You may optionally provide an object with a `sampleRate` key, defaults to 44100.
 
 ## crunker.fetchAudio(songURL, anotherSongURL)
 
-Fetch one or more audio files.  
+Fetch one or more audio files.
 Returns: an array of audio buffers in the order they were fetched.
 
 ## crunker.mergeAudio(arrayOfBuffers);
 
-Merge two or more audio buffers.  
+Merge two or more audio buffers.
 Returns: a single AudioBuffer object.
 
 ## crunker.concatAudio(arrayOfBuffers);
 
-Concatenate two or more audio buffers in the order specified.  
+Concatenate two or more audio buffers in the order specified.
 Returns: a single AudioBuffer object.
 
 ## crunker.padAudio(buffer, padStart, seconds);
-Pad the audio with silence, at the beginning, the end, or any specified points through the audio.  
+
+Pad the audio with silence, at the beginning, the end, or any specified points through the audio.
 Returns: a single AudioBuffer object.
 
 ## crunker.export(buffer, type);
 
-Export an audio buffers with MIME type option.  
-Type: `'audio/mp3', 'audio/wav', 'audio/ogg'`.  
+Export an audio buffers with MIME type option.
+Type: `'audio/mp3', 'audio/wav', 'audio/ogg'`.
 Returns: an object containing the blob object, url, and an audio element object.
 
 ## crunker.download(blob, filename);
 
-Automatically download an exported audio blob with optional filename.  
-Returns: the `<a></a>` element used to simulate the automatic download.
-
-## crunker.download(blob, filename);
-
-Automatically download an exported audio blob with optional filename.  
-Filename: String not containing the .mp3, .wav, or .ogg file extension.  
+Automatically download an exported audio blob with optional filename.
+Filename: String not containing the .mp3, .wav, or .ogg file extension.
 Returns: the `<a></a>` element used to simulate the automatic download.
 
 ## crunker.play(blob);
 
-Starts playing the exported audio blob in the background.  
+Starts playing the exported audio blob in the background.
 Returns: the audio source object.
 
-## audio.notSupported(callback);
+## crunker.notSupported(callback);
 
-Execute custom code if Web Audio API is not supported by the users browser.  
+Execute custom code if Web Audio API is not supported by the users browser.
 Returns: The callback function.
 
 # License
