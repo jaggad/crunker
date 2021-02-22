@@ -16,9 +16,14 @@ export default class Crunker {
 
   async fetchAudio(...filepaths) {
     const files = filepaths.map(async (filepath) => {
-      const buffer = await fetch(filepath).then((response) =>
-        response.arrayBuffer()
-      );
+      let buffer;
+
+      if (filepath instanceof File) {
+        buffer = await filepath.arrayBuffer();
+      } else {
+        buffer = await fetch(filepath).then((response) => response.arrayBuffer());
+      }
+
       return await this._context.decodeAudioData(buffer);
     });
     return await Promise.all(files);
