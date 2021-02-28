@@ -61,6 +61,22 @@ crunker
   });
 ```
 
+# Input file Example
+
+```javascript
+let crunker = new Crunker();
+
+const onFileInputChange = async (target) => {
+  const buffers = await crunker.fetchAudio(...target.files, "/voice.mp3", "/background.mp3");
+};
+
+<input
+  onChange={onFileInputChange(this)}
+  type="file"
+  accept="audio/*"
+/>
+```
+
 # [Graphic Representation of Methods](https://github.com/jackedgson/crunker/issues/16)
 
 ## Merge
