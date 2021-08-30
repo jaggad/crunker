@@ -4,7 +4,7 @@ const TerserPlugin = require("terser-webpack-plugin");
 module.exports = {
   mode: "production",
   context: __dirname + "/src",
-  entry: "./crunker.js",
+  entry: "./crunker.ts",
   output: {
     path: __dirname + "/dist",
     filename: "crunker.js",
@@ -12,19 +12,24 @@ module.exports = {
     libraryTarget: "umd",
     umdNamedDefine: true,
   },
+  devtool: 'source-map',
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.ts$/,
         exclude: /node_modules/,
         loader: "babel-loader",
         query: {
-          presets: ["es2015"],
+          presets: [
+            "@babel/preset-typescript",
+            ["@babel/preset-env"]
+          ],
         },
       },
     ],
   },
   optimization: {
+    minimize: true,
     minimizer: [new TerserPlugin()],
   },
   plugins: [
