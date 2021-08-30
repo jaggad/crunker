@@ -3,6 +3,7 @@
   "version": "0.4.1",
   "description": "Simple way to merge or concatenate audio files with the Web Audio API.",
   "main": "dist/crunker.js",
+  "types": "dist/crunker.d.ts",
   "directories": {
     "test": "test",
     "src": "src"
