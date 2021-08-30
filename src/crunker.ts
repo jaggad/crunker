@@ -295,7 +295,7 @@ export default class Crunker {
    */
   private _floatTo16BitPCM(dataview: DataView, buffer: Float32Array, offset: number): DataView {
     for (let i = 0; i < buffer.length; i++, offset += 2) {
-      let tmp = Math.max(-1, Math.min(1, buffer[i]));
+      const tmp = Math.max(-1, Math.min(1, buffer[i]));
       dataview.setInt16(offset, tmp < 0 ? tmp * 0x8000 : tmp * 0x7fff, true);
     }
 
