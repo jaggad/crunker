@@ -16,17 +16,20 @@ module.exports = {
   },
   resolve: {
       alias: {
-          'crunker': path.resolve(__dirname, 'src/crunker.js')
+          'crunker': path.resolve(__dirname, 'src/crunker.ts')
       }
   },
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.(j|t)s$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
         query: {
-          presets: ['es2015']
+          presets: [
+            "@babel/preset-typescript",
+            ["@babel/preset-env"]
+          ],
         }
       }
     ]
