@@ -12,7 +12,7 @@ module.exports = {
     libraryTarget: "umd",
     umdNamedDefine: true,
   },
-  devtool: 'source-map',
+  devtool: "source-map",
   module: {
     rules: [
       {
@@ -20,10 +20,8 @@ module.exports = {
         exclude: /node_modules/,
         loader: "babel-loader",
         query: {
-          presets: [
-            "@babel/preset-typescript",
-            ["@babel/preset-env"]
-          ],
+          presets: ["@babel/preset-env", "@babel/preset-typescript"],
+          plugins: ["@babel/proposal-class-properties", "@babel/proposal-object-rest-spread"],
         },
       },
     ],
