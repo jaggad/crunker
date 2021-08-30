@@ -176,7 +176,7 @@ export default class Crunker {
    * @param buffer Buffer to export
    * @param type MIME type (default: `audio/mp3`)
    */
-  export(buffer: AudioBuffer, type: string = "audio/mp3"): ExportedCrunkerAudio {
+  export(buffer: AudioBuffer, type: string = 'audio/mp3'): ExportedCrunkerAudio {
     const recorded = this._interleave(buffer);
     const dataview = this._writeHeaders(recorded);
     const audioBlob = new Blob([dataview], { type });
@@ -194,12 +194,12 @@ export default class Crunker {
    * @param blob Blob to download
    * @param filename An optional file name to use for the download (default: `crunker`)
    */
-  download(blob: Blob, filename: string = "crunker"): HTMLAnchorElement {
-    const a = document.createElement("a");
+  download(blob: Blob, filename: string = 'crunker'): HTMLAnchorElement {
+    const a = document.createElement('a');
 
-    a.style.display = "none";
+    a.style.display = 'none';
     a.href = this._renderURL(blob);
-    a.download = `${filename}.${blob.type.split("/")[1]}`;
+    a.download = `${filename}.${blob.type.split('/')[1]}`;
     a.click();
 
     return a;
@@ -257,7 +257,7 @@ export default class Crunker {
    * @internal
    */
   private _isSupported(): boolean {
-    return "AudioContext" in window || "webkitAudioContext" in window || "mozAudioContext" in window;
+    return 'AudioContext' in window || 'webkitAudioContext' in window || 'mozAudioContext' in window;
   }
 
   /**
@@ -271,10 +271,10 @@ export default class Crunker {
     const arrayBuffer = new ArrayBuffer(44 + buffer.length * 2);
     const view = new DataView(arrayBuffer);
 
-    this._writeString(view, 0, "RIFF");
+    this._writeString(view, 0, 'RIFF');
     view.setUint32(4, 32 + buffer.length * 2, true);
-    this._writeString(view, 8, "WAVE");
-    this._writeString(view, 12, "fmt ");
+    this._writeString(view, 8, 'WAVE');
+    this._writeString(view, 12, 'fmt ');
     view.setUint32(16, 16, true);
     view.setUint16(20, 1, true);
     view.setUint16(22, 2, true);
@@ -282,7 +282,7 @@ export default class Crunker {
     view.setUint32(28, this._sampleRate * 4, true);
     view.setUint16(32, 4, true);
     view.setUint16(34, 16, true);
-    this._writeString(view, 36, "data");
+    this._writeString(view, 36, 'data');
     view.setUint32(40, buffer.length * 2, true);
 
     return this._floatTo16BitPCM(view, buffer, 44);
@@ -340,7 +340,7 @@ export default class Crunker {
    * @internal
    */
   private _renderAudioElement(blob: Blob): HTMLAudioElement {
-    const audio = document.createElement("audio");
+    const audio = document.createElement('audio');
 
     audio.controls = true;
     audio.src = this._renderURL(blob);
