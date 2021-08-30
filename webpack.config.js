@@ -1,27 +1,33 @@
-const webpack = require("webpack");
-const TerserPlugin = require("terser-webpack-plugin");
+const webpack = require('webpack');
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
-  mode: "production",
-  context: __dirname + "/src",
-  entry: "./crunker.ts",
+  mode: 'production',
+  context: __dirname + '/src',
+  entry: './crunker.ts',
   output: {
-    path: __dirname + "/dist",
-    filename: "crunker.js",
-    library: "Crunker",
-    libraryTarget: "umd",
+    path: __dirname + '/dist',
+    filename: 'crunker.js',
+    library: 'Crunker',
+    libraryTarget: 'umd',
     umdNamedDefine: true,
   },
-  devtool: "source-map",
+  devtool: 'source-map',
   module: {
     rules: [
       {
         test: /\.ts$/,
         exclude: /node_modules/,
-        loader: "babel-loader",
+        loader: 'babel-loader',
         query: {
-          presets: ["@babel/preset-env", "@babel/preset-typescript"],
-          plugins: ["@babel/proposal-class-properties", "@babel/proposal-object-rest-spread"],
+          presets: [
+            [
+              '@babel/preset-env',
+              { exclude: ['@babel/plugin-transform-regenerator', '@babel/plugin-transform-async-to-generator'] },
+            ],
+            '@babel/preset-typescript',
+          ],
+          plugins: ['@babel/proposal-class-properties', '@babel/proposal-object-rest-spread'],
         },
       },
     ],
@@ -32,7 +38,7 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
     }),
   ],
 };
