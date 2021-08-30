@@ -77,11 +77,11 @@ export default class Crunker {
     );
 
     buffers.forEach((buffer) => {
-      for (let channelNumber = 0; channelNumber < buffer.numberOfChannels; channelNumber += 1) {
+      for (let channelNumber = 0; channelNumber < buffer.numberOfChannels; channelNumber++) {
         const outputData = output.getChannelData(channelNumber);
         const bufferData = buffer.getChannelData(channelNumber);
 
-        for (let i = buffer.getChannelData(channelNumber).length - 1; i >= 0; i -= 1) {
+        for (let i = buffer.getChannelData(channelNumber).length - 1; i >= 0; i--) {
           outputData[i] += bufferData[i];
         }
 
@@ -140,7 +140,7 @@ export default class Crunker {
       buffer.sampleRate
     );
 
-    for (let channelNumber = 0; channelNumber < buffer.numberOfChannels; channelNumber += 1) {
+    for (let channelNumber = 0; channelNumber < buffer.numberOfChannels; channelNumber++) {
       const channelData = buffer.getChannelData(channelNumber);
       updatedBuffer
         .getChannelData(channelNumber)
