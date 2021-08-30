@@ -108,7 +108,7 @@ export default class Crunker {
     let offset = 0;
 
     buffers.forEach((buffer) => {
-      for (let channelNumber = 0; channelNumber < buffer.numberOfChannels; channelNumber += 1) {
+      for (let channelNumber = 0; channelNumber < buffer.numberOfChannels; channelNumber++) {
         output.getChannelData(channelNumber).set(buffer.getChannelData(channelNumber), offset);
       }
 
