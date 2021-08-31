@@ -9,31 +9,37 @@ module.exports = {
   devtool: 'inline-source-map',
   output: {
     path: testDir,
-    filename: "test.bundle.js",
-    library: "Crunker",
-    libraryTarget: "umd",
-    umdNamedDefine: true
+    filename: 'test.bundle.js',
+    library: 'Crunker',
+    libraryTarget: 'umd',
+    umdNamedDefine: true,
   },
   resolve: {
-      alias: {
-          'crunker': path.resolve(__dirname, 'src/crunker.js')
-      }
+    alias: {
+      crunker: path.resolve(__dirname, 'src/crunker.ts'),
+    },
   },
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.(j|t)s$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
         query: {
-          presets: ['es2015']
-        }
-      }
-    ]
+          presets: [
+            [
+              '@babel/preset-env',
+              { exclude: ['@babel/plugin-transform-regenerator', '@babel/plugin-transform-async-to-generator'] },
+            ],
+            '@babel/preset-typescript',
+          ],
+        },
+      },
+    ],
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
-    })
-  ]
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+    }),
+  ],
 };

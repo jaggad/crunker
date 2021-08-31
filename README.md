@@ -6,6 +6,7 @@ Simple way to merge, concatenate, play, export and download audio files with the
 
 - No dependencies
 - Tiny 2kB gzipped
+- Written in Typescript
 
 # Installation
 
@@ -89,6 +90,8 @@ const onFileInputChange = async (target) => {
 
 # Methods
 
+For more detailed API documentation, view the Typescript typings.
+
 ## new Crunker({ sampleRate: 44100 })
 
 Create a new Crunker.
@@ -124,12 +127,12 @@ Returns: an object containing the blob object, url, and an audio element object.
 
 Automatically download an exported audio blob with optional filename.
 Filename: String not containing the .mp3, .wav, or .ogg file extension.
-Returns: the `<a></a>` element used to simulate the automatic download.
+Returns: the HTMLAnchorElement element used to simulate the automatic download.
 
-## crunker.play(blob);
+## crunker.play(buffer);
 
-Starts playing the exported audio blob in the background.
-Returns: the audio source object.
+Starts playing the exported audio buffer in the background.
+Returns: the HTMLAudioElement.
 
 ## crunker.notSupported(callback);
 
