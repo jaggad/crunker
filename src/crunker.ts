@@ -173,10 +173,14 @@ export default class Crunker {
   /**
    * Exports the specified AudioBuffer to a Blob, Object URI and HTMLAudioElement.
    *
+   * Note that changing the MIME type does not change the actual file format. The
+   * file format will **always** be a WAVE file due to how audio is stored in the
+   * browser.
+   *
    * @param buffer Buffer to export
-   * @param type MIME type (default: `audio/mp3`)
+   * @param type MIME type (default: `audio/wav`)
    */
-  export(buffer: AudioBuffer, type: string = 'audio/mp3'): ExportedCrunkerAudio {
+  export(buffer: AudioBuffer, type: string = 'audio/wav'): ExportedCrunkerAudio {
     const recorded = this._interleave(buffer);
     const dataview = this._writeHeaders(recorded);
     const audioBlob = new Blob([dataview], { type });
