@@ -47,19 +47,29 @@ export default class Crunker {
    * Asynchronously fetches multiple audio files and returns an array of AudioBuffers.
    */
   async fetchAudio(...filepaths: CrunkerInputTypes[]): Promise<AudioBuffer[]> {
-    const files = filepaths.map(async (filepath) => {
-      let buffer: ArrayBuffer;
+    return await Promise.all(
+      filepaths.map(async (filepath) => {
+        let buffer: ArrayBuffer;
 
-      if (filepath instanceof File) {
-        buffer = await filepath.arrayBuffer();
-      } else {
-        buffer = await fetch(filepath).then((response) => response.arrayBuffer());
-      }
+        if (filepath instanceof File) {
+          buffer = await filepath.arrayBuffer();
+        } else {
+          buffer = await fetch(filepath).then((response) => {
+            if (response.headers.has('Content-Type') && !response.headers.get('Content-Type')!.includes('audio/')) {
+              console.warn(
+                `Crunker: Attempted to fetch an audio file, but its MIME type is \`${
+                  response.headers.get('Content-Type')!.split(';')[0]
+                }\`. We'll try and continue anyway. (file: "${filepath}")`
+              );
+            }
 
-      return await this._context.decodeAudioData(buffer);
-    });
+            return response.arrayBuffer();
+          });
+        }
 
-    return await Promise.all(files);
+        return await this._context.decodeAudioData(buffer);
+      })
+    );
   }
 
   /**
