@@ -7,7 +7,7 @@ export interface CrunkerConstructorOptions {
   sampleRate: number;
 }
 
-export type CrunkerInputTypes = string | File;
+export type CrunkerInputTypes = string | File | Blob;
 
 /**
  * An exported Crunker audio object.
@@ -51,7 +51,7 @@ export default class Crunker {
       filepaths.map(async (filepath) => {
         let buffer: ArrayBuffer;
 
-        if (filepath instanceof File) {
+        if (filepath instanceof File || filepath instanceof Blob) {
           buffer = await filepath.arrayBuffer();
         } else {
           buffer = await fetch(filepath).then((response) => {
