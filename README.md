@@ -8,6 +8,8 @@ Simple way to merge, concatenate, play, export and download audio files with the
 - Tiny 2kB gzipped
 - Written in Typescript
 
+[View online demos](https://jackedgson.github.io/crunker/examples/)
+
 # Installation
 
 ```sh
