@@ -16,7 +16,7 @@
     "build:prod": "webpack --config webpack.config.js --mode production",
     "build:types": "tsc --emitDeclarationOnly",
     "prepublishOnly": "npm run build",
-    "format": "prettier --write src"
+    "format": "prettier --write ."
   },
   "repository": {
     "type": "git",

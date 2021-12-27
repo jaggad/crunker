@@ -8,11 +8,14 @@ Simple way to merge, concatenate, play, export and download audio files with the
 - Tiny 2kB gzipped
 - Written in Typescript
 
+[View online demos](https://jackedgson.github.io/crunker/examples/)
+
 # Installation
 
 ```sh
 yarn add crunker
 ```
+
 ```sh
 npm install crunker
 ```
@@ -23,22 +26,22 @@ npm install crunker
 let crunker = new Crunker();
 
 crunker
-  .fetchAudio("/song.mp3", "/another-song.mp3")
-  .then(buffers => {
+  .fetchAudio('/song.mp3', '/another-song.mp3')
+  .then((buffers) => {
     // => [AudioBuffer, AudioBuffer]
     return crunker.mergeAudio(buffers);
   })
-  .then(merged => {
+  .then((merged) => {
     // => AudioBuffer
-    return crunker.export(merged, "audio/mp3");
+    return crunker.export(merged, 'audio/mp3');
   })
-  .then(output => {
+  .then((output) => {
     // => {blob, element, url}
     crunker.download(output.blob);
     document.body.append(output.element);
     console.log(output.url);
   })
-  .catch(error => {
+  .catch((error) => {
     // => Error Message
   });
 
@@ -53,11 +56,11 @@ crunker.notSupported(() => {
 let crunker = new Crunker();
 
 crunker
-  .fetchAudio("/voice.mp3", "/background.mp3")
-  .then(buffers => crunker.mergeAudio(buffers))
-  .then(merged => crunker.export(merged, "audio/mp3"))
-  .then(output => crunker.download(output.blob))
-  .catch(error => {
+  .fetchAudio('/voice.mp3', '/background.mp3')
+  .then((buffers) => crunker.mergeAudio(buffers))
+  .then((merged) => crunker.export(merged, 'audio/mp3'))
+  .then((output) => crunker.download(output.blob))
+  .catch((error) => {
     throw new Error(error);
   });
 ```
@@ -68,14 +71,10 @@ crunker
 let crunker = new Crunker();
 
 const onFileInputChange = async (target) => {
-  const buffers = await crunker.fetchAudio(...target.files, "/voice.mp3", "/background.mp3");
+  const buffers = await crunker.fetchAudio(...target.files, '/voice.mp3', '/background.mp3');
 };
 
-<input
-  onChange={onFileInputChange(this)}
-  type="file"
-  accept="audio/*"
-/>
+<input onChange={onFileInputChange(this)} type="file" accept="audio/*" />;
 ```
 
 # [Graphic Representation of Methods](https://github.com/jackedgson/crunker/issues/16)
