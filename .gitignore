@@ -4,3 +4,12 @@ yarn.lock
 yarn-error.log
 dist
 test/*.bundle.js
+
+# Yarn 2+
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
