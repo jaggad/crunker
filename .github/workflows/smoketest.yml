@@ -63,7 +63,7 @@ jobs:
         run: yarn install --immutable
 
       - name: Install Chrome
-        uses: browser-actions/setup-chrome@199a6fa42e7ee7ed582f541afee4c97852a4afb2
+        uses: browser-actions/setup-chrome@latest
 
       - name: Run tests
         run: yarn run test
