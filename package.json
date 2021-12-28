@@ -10,13 +10,15 @@
   },
   "scripts": {
     "type-check": "tsc --noEmit",
-    "type-check:watch": "npm run type-check -- --watch",
-    "build": "npm run build:prod && npm run build:types",
+    "type-check:watch": "yarn run type-check -- --watch",
+    "build": "yarn run build:prod && yarn run build:types",
     "build:test": "webpack --config webpack.test.config.js --mode development",
     "build:prod": "webpack --config webpack.config.js --mode production",
     "build:types": "tsc --emitDeclarationOnly",
-    "prepublishOnly": "npm run build",
-    "format": "prettier --write ."
+    "prepublishOnly": "yarn run build",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "yarn run build:test && karma start --single-run --browsers ChromeHeadless karma.conf.js"
   },
   "repository": {
     "type": "git",
@@ -45,6 +47,10 @@
     "babel-loader": "^8.2.3",
     "babel-minify": "^0.5.1",
     "chai": "^3.5.0",
+    "karma": "^6.3.9",
+    "karma-chai": "^0.1.0",
+    "karma-chrome-launcher": "^3.1.0",
+    "karma-mocha": "^2.0.1",
     "mocha": "^3.5.3",
     "prettier": "^2.5.1",
     "terser-webpack-plugin": "^4.2.3",
