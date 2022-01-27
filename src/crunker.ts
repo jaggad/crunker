@@ -44,6 +44,14 @@ export default class Crunker {
   }
 
   /**
+   *
+   * The internal AudioContext used by Crunker.
+   */
+  get context(): AudioContext {
+    return this._context;
+  }
+
+  /**
    * Asynchronously fetches multiple audio files and returns an array of AudioBuffers.
    */
   async fetchAudio(...filepaths: CrunkerInputTypes[]): Promise<AudioBuffer[]> {
