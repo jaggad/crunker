@@ -1,7 +1,7 @@
 import Crunker from 'crunker';
 
 describe('Crunker', () => {
-  const url = 'https://www.freesound.org/data/previews/131/131660_2398403-lq.mp3';
+  const url = 'https://unpkg.com/crunker@1.3.0/examples/server/2.mp3';
   let audio, buffers;
 
   before(async () => {
@@ -23,13 +23,13 @@ describe('Crunker', () => {
 
   it('fetches a single audio file', async () => {
     const buffer = await audio.fetchAudio(url);
-    expect(buffer[0]).to.have.property('sampleRate', 44100);
+    expect(buffer[0]).to.have.property('sampleRate', 48000);
   });
 
   it('fetches multiple audio files', async () => {
     const buffers = await audio.fetchAudio(url, url);
     buffers.map((buffer) => {
-      expect(buffer).to.have.property('sampleRate', 44100);
+      expect(buffer).to.have.property('sampleRate', 48000);
     });
   });
 
@@ -42,8 +42,7 @@ describe('Crunker', () => {
   });
 
   it('uses correct length when concatenating', () => {
-    const combinedDuration = buffers.reduce((prev, curr) => prev.duration + curr.duration);
-    expect(audio.concatAudio(buffers)).to.have.property('duration', combinedDuration);
+    expect(audio.concatAudio(buffers).duration.toFixed(2)).to.equal('17.74');
   });
 
   it('exports an object', () => {

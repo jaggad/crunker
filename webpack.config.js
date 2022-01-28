@@ -19,7 +19,7 @@ module.exports = {
         test: /\.ts$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
-        query: {
+        options: {
           presets: [
             [
               '@babel/preset-env',
