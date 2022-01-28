@@ -23,13 +23,13 @@ describe('Crunker', () => {
 
   it('fetches a single audio file', async () => {
     const buffer = await audio.fetchAudio(url);
-    expect(buffer[0]).to.have.property('sampleRate', 48000);
+    expect(buffer[0]).to.have.property('sampleRate', 44100);
   });
 
   it('fetches multiple audio files', async () => {
     const buffers = await audio.fetchAudio(url, url);
     buffers.map((buffer) => {
-      expect(buffer).to.have.property('sampleRate', 48000);
+      expect(buffer).to.have.property('sampleRate', 44100);
     });
   });
 
@@ -42,7 +42,7 @@ describe('Crunker', () => {
   });
 
   it('uses correct length when concatenating', () => {
-    expect(audio.concatAudio(buffers).duration.toFixed(2)).to.equal('17.74');
+    expect(audio.concatAudio(buffers).duration.toFixed(2)).to.equal('16.30');
   });
 
   it('exports an object', () => {
