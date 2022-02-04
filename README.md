@@ -138,6 +138,15 @@ Returns: the HTMLAudioElement.
 Execute custom code if Web Audio API is not supported by the users browser.
 Returns: The callback function.
 
+# Properties
+
+For more detailed API documentation, view the Typescript typings.
+
+## crunker.audioContext
+
+Access the [AudioContext](https://developer.mozilla.org/en-US/docs/Web/API/AudioContext) used internally by a given Crunker.
+Returns: [AudioContext](https://developer.mozilla.org/en-US/docs/Web/API/AudioContext).
+
 # License
 
 MIT
