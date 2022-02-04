@@ -21,6 +21,10 @@ describe('Crunker', () => {
     expect(audio._context).to.not.equal(null);
   });
 
+  it('returns internal context', () => {
+    expect(audio.context).to.be.instanceOf(window.AudioContext);
+  });
+
   it('fetches a single audio file', async () => {
     const buffer = await audio.fetchAudio(url);
     expect(buffer[0]).to.have.property('sampleRate', 44100);
