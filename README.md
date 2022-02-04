@@ -142,7 +142,7 @@ Returns: The callback function.
 
 For more detailed API documentation, view the Typescript typings.
 
-## crunker.audioContext
+## crunker.context
 
 Access the [AudioContext](https://developer.mozilla.org/en-US/docs/Web/API/AudioContext) used internally by a given Crunker.
 Returns: [AudioContext](https://developer.mozilla.org/en-US/docs/Web/API/AudioContext).
