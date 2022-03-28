@@ -91,10 +91,10 @@ const onFileInputChange = async (target) => {
 
 For more detailed API documentation, view the Typescript typings.
 
-## new Crunker({ sampleRate: 44100 })
+## new Crunker()
 
-Create a new Crunker.
-You may optionally provide an object with a `sampleRate` key, defaults to 44100.
+Create a new instance of Crunker.
+You may optionally provide an object with a `sampleRate` key, but it will default to the same sample rate as the internal audio context, which is appropriate for your device.
 
 ## crunker.fetchAudio(songURL, anotherSongURL)
 

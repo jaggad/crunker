@@ -27,10 +27,16 @@ export default class Crunker {
 
   /**
    * Creates a new instance of Crunker with the provided options.
+   *
+   * If `sampleRate` is not defined, it will auto-select an appropriate sample rate
+   * for the device being used.
    */
-  constructor({ sampleRate = 44100 }: Partial<CrunkerConstructorOptions> = {}) {
-    this._sampleRate = sampleRate;
+  constructor({ sampleRate }: Partial<CrunkerConstructorOptions> = {}) {
     this._context = this._createContext();
+
+    sampleRate ||= this._context.sampleRate;
+
+    this._sampleRate = sampleRate;
   }
 
   /**
