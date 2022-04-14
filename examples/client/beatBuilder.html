@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<head>
+    <title>Crunker test</title>
+    <script src="https://unpkg.com/crunker@latest/dist/crunker.js"></script>
+    <script type="text/javascript">
+        mergeOneLine = async function(crunker, buffer, times){
+            let audios = times.map(t => crunker.padAudio(buffer, 0, t))
+            return crunker.mergeAudio(audios)
+        }
+        
+        beatBuilder = async function(crunker, beatConf, buffers, beatTiming){
+            let beatLines = await Promise.all(buffers.map((_,i) => {
+                return mergeOneLine(crunker, buffers[i], beatTiming[i].map(bt => bt*beatConf.timing))
+            }))
+            let beat = await crunker.mergeAudio(beatLines)
+            return await mergeOneLine(crunker, beat, Array.from(Array(beatConf.repeats).keys()).map(e => beatConf.delayStart+e*beatConf.beats*beatConf.timing))
+        }
+        
+        window.onload = async function(){
+            let crunker = new Crunker.default({sampleRate:96000});
+            let [hihats] = await crunker.fetchAudio('./drumms_Hi-Hats_Open_Hat.mp3');   //use your own sound here
+            let [dirtBase] = await crunker.fetchAudio('./drumms_dirt_base.mp3');        //use your own sound here
+            
+            //add pause to audio
+            beat = await beatBuilder(crunker, {delayStart: 1, timing:0.5, repeats: 4, beats: 4},
+                [dirtBase, hihats], [
+                [0, 1.5, 2],
+                [1, 3]
+            ])
+            
+            
+            let merged = await crunker.mergeAudio([beat])
+            crunker.play(merged);
+            let output = await crunker.export(merged, 'audio/ogg');
+            await crunker.download(output.blob, 'merged');
+        }
+    </script>
+</head>
+<body>
+    <h1>Crunker test</h1>
+</body>
+</html>
