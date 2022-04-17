@@ -77,6 +77,10 @@ const onFileInputChange = async (target) => {
 <input onChange={onFileInputChange(this)} type="file" accept="audio/*" />;
 ```
 
+## Other Examples
+
+- [Beat Builder Machine](examples/client/beatBuilder.html)
+
 # [Graphic Representation of Methods](https://github.com/jackedgson/crunker/issues/16)
 
 ## Merge
