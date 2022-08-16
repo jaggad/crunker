@@ -1,7 +1,5 @@
 # Crunker
 
-**Experimental, use in production with caution**
-
 Simple way to merge, concatenate, play, export and download audio files with the Web Audio API.
 
 - No dependencies
