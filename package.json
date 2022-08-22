@@ -22,7 +22,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jackedgson/crunker.git"
+    "url": "git+https://github.com/jaggad/crunker.git"
   },
   "keywords": [
     "web-audio-api",
@@ -36,9 +36,9 @@
   "author": "Jack Edgson",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jackedgson/crunker/issues"
+    "url": "https://github.com/jaggad/crunker/issues"
   },
-  "homepage": "https://github.com/jackedgson/crunker#readme",
+  "homepage": "https://github.com/jaggad/crunker#readme",
   "devDependencies": {
     "@babel/cli": "^7.16.8",
     "@babel/core": "^7.16.12",
