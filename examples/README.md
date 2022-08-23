@@ -4,5 +4,6 @@ This directory contains some examples of possible use-cases for crunker.js and t
 
 ## Live Demos
 
-- [Audio from Client](https://jackedgson.github.io/crunker/examples/client/index.html)
-- [Audio from Server](https://jackedgson.github.io/crunker/examples/server/index.html)
+- [Audio from Client](https://jaggad.github.io/crunker/examples/client/index.html)
+- [Audio from Server](https://jaggad.github.io/crunker/examples/server/index.html)
+- [Beat Builder](https://jaggad.github.io/crunker/examples/client/beatBuilder.html)
