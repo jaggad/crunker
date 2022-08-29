@@ -1,45 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <title>Crunker - Beat machine example</title>
     <script src="https://unpkg.com/crunker@latest/dist/crunker.js"></script>
     <script type="text/javascript">
-        const mergeOneLine = async (crunker, buffer, times) => {
-            const audios = times.map(t => crunker.padAudio(buffer, 0, t))
-            return crunker.mergeAudio(audios)
-        }
-        
-        const beatBuilder = async (crunker, beatConf, buffers, beatTiming) =>{
-            const beatLines = await Promise.all(buffers.map((_,i) => {
-                return mergeOneLine(crunker, buffers[i], beatTiming[i].map(bt => bt*beatConf.timing))
-            }))
-            const beat = await crunker.mergeAudio(beatLines)
-            const beatTimingBaseArray = Array.from(Array(beatConf.repeats).keys())      //will generate an Array [0,1,2,3,4,5,...,beatConf.repeats]
-            const beatTiming = beatTimingBaseArray.map(e => beatConf.delayStart + e * beatConf.beats * beatConf.timing) //will convert the array to the exact timestamps where the beat should restart
-            return await mergeOneLine(crunker, beat, beatTiming)
-        }
-        
-        window.onload = async function(){
-            const crunker = new Crunker.default({sampleRate:96000});
-            const [hihats] = await crunker.fetchAudio('./drumms_Hi-Hats_Open_Hat.mp3');   //use your own sound here
-            const [dirtBase] = await crunker.fetchAudio('./drumms_dirt_base.mp3');        //use your own sound here
-            
-            //add pause to audio
-            const beat = await beatBuilder(crunker, {delayStart: 1, timing:0.5, repeats: 4, beats: 4},
-                [dirtBase, hihats], [
-                [0, 1.5, 2],
-                [1, 3]
-            ])
-            
-            
-            const merged = await crunker.mergeAudio([beat])
-            crunker.play(merged);
-            const output = await crunker.export(merged, 'audio/ogg');
-            await crunker.download(output.blob, 'merged');
-        }
+      const mergeOneLine = async (crunker, buffer, times) => {
+        const audios = times.map((t) => crunker.padAudio(buffer, 0, t));
+        return crunker.mergeAudio(audios);
+      };
+
+      const beatBuilder = async (crunker, beatConf, buffers, beatTiming) => {
+        const beatLines = await Promise.all(
+          buffers.map((_, i) => {
+            return mergeOneLine(
+              crunker,
+              buffers[i],
+              beatTiming[i].map((bt) => bt * beatConf.timing)
+            );
+          })
+        );
+        const beat = await crunker.mergeAudio(beatLines);
+        const beatTimingBaseArray = Array.from(Array(beatConf.repeats).keys()); //will generate an Array [0,1,2,3,4,5,...,beatConf.repeats]
+        const beatTiming = beatTimingBaseArray.map((e) => beatConf.delayStart + e * beatConf.beats * beatConf.timing); //will convert the array to the exact timestamps where the beat should restart
+        return await mergeOneLine(crunker, beat, beatTiming);
+      };
+
+      window.onload = async function () {
+        const crunker = new Crunker.default({ sampleRate: 96000 });
+        const [hihats] = await crunker.fetchAudio('./drumms_Hi-Hats_Open_Hat.mp3'); //use your own sound here
+        const [dirtBase] = await crunker.fetchAudio('./drumms_dirt_base.mp3'); //use your own sound here
+
+        //add pause to audio
+        const beat = await beatBuilder(
+          crunker,
+          { delayStart: 1, timing: 0.5, repeats: 4, beats: 4 },
+          [dirtBase, hihats],
+          [
+            [0, 1.5, 2],
+            [1, 3],
+          ]
+        );
+
+        const merged = await crunker.mergeAudio([beat]);
+        crunker.play(merged);
+        const output = await crunker.export(merged, 'audio/ogg');
+        await crunker.download(output.blob, 'merged');
+      };
     </script>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Crunker - Beat machine example</h1>
-</body>
+  </body>
 </html>
