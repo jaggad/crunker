@@ -8,7 +8,6 @@ export interface CrunkerConstructorOptions {
 }
 
 export type CrunkerInputTypes = string | File | Blob;
-type MIME = 'audio/mp3' | 'audio/wav' | 'audio/ogg';
 
 /**
  * An exported Crunker audio object.
@@ -205,7 +204,7 @@ export default class Crunker {
    * @param buffer Buffer to export
    * @param type MIME type (default: `audio/wav`)
    */
-  export(buffer: AudioBuffer, type: MIME = 'audio/wav'): ExportedCrunkerAudio {
+  export(buffer: AudioBuffer, type: string = 'audio/wav'): ExportedCrunkerAudio {
     const recorded = this._interleave(buffer);
     const dataview = this._writeHeaders(recorded, buffer.numberOfChannels, buffer.sampleRate);
     const audioBlob = new Blob([dataview], { type });
