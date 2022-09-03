@@ -8,6 +8,7 @@ export interface CrunkerConstructorOptions {
 }
 
 export type CrunkerInputTypes = string | File | Blob;
+type MIME = 'audio/mp3' | 'audio/wav' | 'audio/ogg';
 
 /**
  * An exported Crunker audio object.
@@ -204,9 +205,9 @@ export default class Crunker {
    * @param buffer Buffer to export
    * @param type MIME type (default: `audio/wav`)
    */
-  export(buffer: AudioBuffer, type: string = 'audio/wav', isFloat32: boolean = false): ExportedCrunkerAudio {
+  export(buffer: AudioBuffer, type: MIME = 'audio/wav'): ExportedCrunkerAudio {
     const recorded = this._interleave(buffer);
-    const dataview = this._writeHeaders(recorded, buffer.numberOfChannels, buffer.sampleRate, isFloat32);
+    const dataview = this._writeHeaders(recorded, buffer.numberOfChannels, buffer.sampleRate);
     const audioBlob = new Blob([dataview], { type });
 
     return {
@@ -295,33 +296,34 @@ export default class Crunker {
    *
    * @internal
    */
-  private _writeHeaders(buffer: Float32Array, numOfChannels: number, sampleRate: number, isFloat32: boolean): DataView {
-    const format = isFloat32 ? 3 : 1;
-    const bitDepth = isFloat32 ? 32 : 16;
+  private _writeHeaders(buffer: Float32Array, numOfChannels: number, sampleRate: number): DataView {
+    const bitDepth = 16;
     const bytesPerSample = bitDepth / 8;
     const sampleSize = numOfChannels * bytesPerSample;
 
-    const arrayBuffer = new ArrayBuffer(44 + buffer.length * bytesPerSample);
+    const fileHeaderSize = 8;
+    const chunkHeaderSize = 36;
+    const chunkDataSize = buffer.length * bytesPerSample;
+    const chunkTotalSize = chunkHeaderSize + chunkDataSize;
+
+    const arrayBuffer = new ArrayBuffer(fileHeaderSize + chunkTotalSize);
     const view = new DataView(arrayBuffer);
 
     this._writeString(view, 0, 'RIFF');
-    view.setUint32(4, 36 + buffer.length * bytesPerSample, true);
+    view.setUint32(4, chunkTotalSize, true);
     this._writeString(view, 8, 'WAVE');
     this._writeString(view, 12, 'fmt ');
     view.setUint32(16, 16, true);
-    view.setUint16(20, format, true);
+    view.setUint16(20, 1, true);
     view.setUint16(22, numOfChannels, true);
     view.setUint32(24, sampleRate, true);
     view.setUint32(28, sampleRate * sampleSize, true);
     view.setUint16(32, sampleSize, true);
     view.setUint16(34, bitDepth, true);
     this._writeString(view, 36, 'data');
-    view.setUint32(40, buffer.length * bytesPerSample, true);
+    view.setUint32(40, chunkDataSize, true);
 
-    if (isFloat32) {
-      return this._copyFloat32(view, buffer, 44);
-    }
-    return this._floatTo16BitPCM(view, buffer, 44);
+    return this._floatTo16BitPCM(view, buffer, fileHeaderSize + chunkHeaderSize);
   }
 
   /**
@@ -333,19 +335,6 @@ export default class Crunker {
     for (let i = 0; i < buffer.length; i++, offset += 2) {
       const tmp = Math.max(-1, Math.min(1, buffer[i]));
       dataview.setInt16(offset, tmp < 0 ? tmp * 0x8000 : tmp * 0x7fff, true);
-    }
-
-    return dataview;
-  }
-
-  /**
-   * Copies data from buffer to DateView
-   *
-   * @internal
-   */
-  private _copyFloat32(dataview: DataView, buffer: Float32Array, offset: number): DataView {
-    for (var i = 0; i < buffer.length; i++, offset += 4) {
-      dataview.setFloat32(offset, buffer[i], true);
     }
 
     return dataview;
@@ -375,6 +364,7 @@ export default class Crunker {
     let index = 0;
     let inputIndex = 0;
 
+    // for 2 channels its like: [L[0], R[0], L[1], R[1], ... , L[n], R[n]]
     while (index < length) {
       channels.forEach((channelIdx) => {
         result[index++] = input.getChannelData(channelIdx)[inputIndex];

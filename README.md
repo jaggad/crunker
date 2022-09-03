@@ -31,7 +31,7 @@ crunker
   })
   .then((merged) => {
     // => AudioBuffer
-    return crunker.export(merged, 'audio/mp3', true);
+    return crunker.export(merged, 'audio/mp3');
   })
   .then((output) => {
     // => {blob, element, url}
@@ -56,7 +56,7 @@ let crunker = new Crunker();
 crunker
   .fetchAudio('/voice.mp3', '/background.mp3')
   .then((buffers) => crunker.mergeAudio(buffers))
-  .then((merged) => crunker.export(merged, 'audio/mp3', true))
+  .then((merged) => crunker.export(merged, 'audio/mp3'))
   .then((output) => crunker.download(output.blob))
   .catch((error) => {
     throw new Error(error);
@@ -118,11 +118,10 @@ Returns: a single AudioBuffer object.
 Pad the audio with silence, at the beginning, the end, or any specified points through the audio.
 Returns: a single AudioBuffer object.
 
-## crunker.export(buffer, type, isFloat32);
+## crunker.export(buffer, type);
 
 Export an audio buffers with MIME type option.
 Type: `'audio/mp3', 'audio/wav', 'audio/ogg'`.
-Set `isFloat32` to `true` if you're looking for higher quality or stereo audio.
 Returns: an object containing the blob object, url, and an audio element object.
 
 ## crunker.download(blob, filename);
