@@ -121,7 +121,7 @@ Pad the audio with silence, at the beginning, the end, or any specified points t
 ## crunker.export(buffer, type);
 
 Export an audio buffers with MIME type option.\
-**Type:** e.g. `'audio/mp3', 'audio/wav', 'audio/ogg'`. 
+**Type:** e.g. `'audio/mp3', 'audio/wav', 'audio/ogg'`.
 **IMPORTANT**: the MIME type does **not** change the actual file format. It will always be a `WAVE` file under the hood.\
 **Returns:** an object containing the blob object, url, and an audio element object.
 
