@@ -65,4 +65,14 @@ describe('Crunker', () => {
   it('exports an object with url', () => {
     expect(audio.export(buffers[0])).to.have.property('url');
   });
+
+  it('interleaves two channels', () => {
+    const audioInput = buffers[0];
+    const interleaved = audio._interleave(audioInput);
+    const left = audioInput.getChannelData(0);
+    const right = audioInput.getChannelData(1);
+
+    expect(interleaved.length).to.equal(left.length + right.length);
+    expect([interleaved[0], interleaved[1]]).to.have.same.members([left[0], right[0]]);
+  });
 });

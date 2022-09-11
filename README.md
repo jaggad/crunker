@@ -100,45 +100,46 @@ You may optionally provide an object with a `sampleRate` key, but it will defaul
 
 ## crunker.fetchAudio(songURL, anotherSongURL)
 
-Fetch one or more audio files.
-Returns: an array of audio buffers in the order they were fetched.
+Fetch one or more audio files.\
+**Returns:** an array of audio buffers in the order they were fetched.
 
 ## crunker.mergeAudio(arrayOfBuffers);
 
-Merge two or more audio buffers.
-Returns: a single AudioBuffer object.
+Merge two or more audio buffers.\
+**Returns:** a single `AudioBuffer` object.
 
 ## crunker.concatAudio(arrayOfBuffers);
 
-Concatenate two or more audio buffers in the order specified.
-Returns: a single AudioBuffer object.
+Concatenate two or more audio buffers in the order specified.\
+**Returns:** a single `AudioBuffer` object.
 
 ## crunker.padAudio(buffer, padStart, seconds);
 
-Pad the audio with silence, at the beginning, the end, or any specified points through the audio.
-Returns: a single AudioBuffer object.
+Pad the audio with silence, at the beginning, the end, or any specified points through the audio.\
+**Returns:** a single `AudioBuffer` object.
 
 ## crunker.export(buffer, type);
 
-Export an audio buffers with MIME type option.
-Type: `'audio/mp3', 'audio/wav', 'audio/ogg'`.
-Returns: an object containing the blob object, url, and an audio element object.
+Export an audio buffers with MIME type option.\
+**Type:** e.g. `'audio/mp3', 'audio/wav', 'audio/ogg'`.
+**IMPORTANT**: the MIME type does **not** change the actual file format. It will always be a `WAVE` file under the hood.\
+**Returns:** an object containing the blob object, url, and an audio element object.
 
 ## crunker.download(blob, filename);
 
-Automatically download an exported audio blob with optional filename.
-Filename: String not containing the .mp3, .wav, or .ogg file extension.
-Returns: the HTMLAnchorElement element used to simulate the automatic download.
+Automatically download an exported audio blob with optional filename.\
+**Filename:** String **not** containing the .mp3, .wav, or .ogg file extension.\
+**Returns:** the `HTMLAnchorElement` element used to simulate the automatic download.
 
 ## crunker.play(buffer);
 
-Starts playing the exported audio buffer in the background.
-Returns: the HTMLAudioElement.
+Starts playing the exported audio buffer in the background.\
+**Returns:** the `HTMLAudioElement`.
 
 ## crunker.notSupported(callback);
 
-Execute custom code if Web Audio API is not supported by the users browser.
-Returns: The callback function.
+Execute custom code if Web Audio API is not supported by the users browser.\
+**Returns:** The callback function.
 
 # Properties
 
@@ -146,8 +147,8 @@ For more detailed API documentation, view the Typescript typings.
 
 ## crunker.context
 
-Access the [AudioContext](https://developer.mozilla.org/en-US/docs/Web/API/AudioContext) used internally by a given Crunker.
-Returns: [AudioContext](https://developer.mozilla.org/en-US/docs/Web/API/AudioContext).
+Access the [AudioContext](https://developer.mozilla.org/en-US/docs/Web/API/AudioContext) used internally by a given Crunker.\
+**Returns:** [AudioContext](https://developer.mozilla.org/en-US/docs/Web/API/AudioContext).
 
 # License
 
