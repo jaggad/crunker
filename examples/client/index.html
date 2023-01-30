@@ -11,7 +11,6 @@
         align-items: start;
       }
     </style>
-    <script src="https://unpkg.com/crunker@latest/dist/crunker.js"></script>
   </head>
   <body>
     <form>
@@ -23,7 +22,9 @@
       </div>
     </form>
 
-    <script>
+    <script type="module">
+      import Crunker from 'https://unpkg.com/crunker@latest/dist/crunker.esm.js';
+
       document.querySelector('form').addEventListener('submit', (e) => e.preventDefault());
 
       const inputSampleRate = document.querySelector('input[name=sampleRate]'),

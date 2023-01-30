@@ -4,13 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Audio from Server - Crunker Example</title>
-    <script src="https://unpkg.com/crunker@latest/dist/crunker.js"></script>
   </head>
   <body>
     <button onclick="handleMerge()">Merge</button>
     <button onclick="handleConcat()">Concat</button>
 
-    <script>
+    <script type="module">
+      import Crunker from 'https://unpkg.com/crunker@latest/dist/crunker.esm.js';
+
       const sampleRate = 48000,
         audioPaths = ['./1.mp3', './2.mp3'];
 
