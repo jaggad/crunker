@@ -2,8 +2,9 @@
 <html lang="en">
   <head>
     <title>Crunker - Beat machine example</title>
-    <script src="https://unpkg.com/crunker@latest/dist/crunker.js"></script>
-    <script type="text/javascript">
+    <script type="module">
+      import Crunker from 'https://unpkg.com/crunker@latest/dist/crunker.esm.js';
+
       const mergeOneLine = async (crunker, buffer, times) => {
         const audios = times.map((t) => crunker.padAudio(buffer, 0, t));
         return crunker.mergeAudio(audios);
