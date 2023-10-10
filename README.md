@@ -121,6 +121,7 @@ Pad the audio with silence, at the beginning, the end, or any specified points t
 ## crunker.sliceAudio(buffer, start, end, fadeIn, fadeOut);
 
 Slice the audio to the specified range, removing any content outside the range. Optionally add a fade-in at the start and a fade-out at the end to avoid audible clicks.
+
 - **buffer:** The audio buffer to be trimmed.
 - **start:** The starting second from where the audio should begin.
 - **end:** The ending second where the audio should be trimmed.
