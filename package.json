@@ -38,9 +38,9 @@
   "author": "Jack Edgson",
   "license": "MIT",
   "files": [
-    "LICENSE"
+    "LICENSE",
     "README.md",
-    "dist",
+    "dist"
   ],
   "bugs": {
     "url": "https://github.com/jaggad/crunker/issues"
