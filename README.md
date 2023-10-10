@@ -118,6 +118,18 @@ Concatenate two or more audio buffers in the order specified.\
 Pad the audio with silence, at the beginning, the end, or any specified points through the audio.\
 **Returns:** a single `AudioBuffer` object.
 
+## crunker.sliceAudio(buffer, start, end, fadeIn, fadeOut);
+
+Slice the audio to the specified range, removing any content outside the range. Optionally add a fade-in at the start and a fade-out at the end to avoid audible clicks.
+
+- **buffer:** The audio buffer to be trimmed.
+- **start:** The starting second from where the audio should begin.
+- **end:** The ending second where the audio should be trimmed.
+- **fadeIn:** (Optional) Number of seconds for the fade-in effect at the beginning. Default is `0`.
+- **fadeOut:** (Optional) Number of seconds for the fade-out effect at the end. Default is `0`.
+
+**Returns:** a single `AudioBuffer` object.
+
 ## crunker.export(buffer, type);
 
 Export an audio buffers with MIME type option.\

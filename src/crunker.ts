@@ -182,6 +182,44 @@ export default class Crunker {
   }
 
   /**
+   * Slices an AudioBuffer from the specified start time to the end time, with optional fade in and out.
+   *
+   * @param buffer AudioBuffer to slice
+   * @param start Start time (in seconds)
+   * @param end End time (in seconds)
+   * @param fadeIn Fade in duration (in seconds, default is 0)
+   * @param fadeOut Fade out duration (in seconds, default is 0)
+   */
+  sliceAudio(buffer: AudioBuffer, start: number, end: number, fadeIn: number = 0, fadeOut: number = 0): AudioBuffer {
+    if (start >= end) throw new Error('Crunker: "start" time should be less than "end" time in sliceAudio method');
+
+    const length = Math.round((end - start) * this._sampleRate);
+    const offset = Math.round(start * this._sampleRate);
+    const newBuffer = this._context.createBuffer(buffer.numberOfChannels, length, this._sampleRate);
+
+    for (let channel = 0; channel < buffer.numberOfChannels; channel++) {
+      const inputData = buffer.getChannelData(channel);
+      const outputData = newBuffer.getChannelData(channel);
+
+      for (let i = 0; i < length; i++) {
+        outputData[i] = inputData[offset + i];
+
+        // Apply fade in
+        if (i < fadeIn * this._sampleRate) {
+          outputData[i] *= i / (fadeIn * this._sampleRate);
+        }
+
+        // Apply fade out
+        if (i > length - fadeOut * this._sampleRate) {
+          outputData[i] *= (length - i) / (fadeOut * this._sampleRate);
+        }
+      }
+    }
+
+    return newBuffer;
+  }
+
+  /**
    * Plays the provided AudioBuffer in an AudioBufferSourceNode.
    */
   play(buffer: AudioBuffer): AudioBufferSourceNode {

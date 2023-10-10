@@ -49,6 +49,10 @@ describe('Crunker', () => {
     expect(audio.concatAudio(buffers).duration.toFixed(2)).to.equal('16.30');
   });
 
+  it('slices a buffer correctly', () => {
+    expect(audio.sliceAudio(buffers[0], 0, 1, 0.1, 0.1).duration.toFixed(2)).to.equal('1.00');
+  });
+
   it('exports an object', () => {
     const output = audio.export(buffers[0]);
     expect(output).to.not.equal(null);
