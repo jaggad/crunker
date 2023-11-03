@@ -32,7 +32,7 @@ export default class Crunker {
    * for the device being used.
    */
   constructor({ sampleRate }: Partial<CrunkerConstructorOptions> = {}) {
-    this._context = this._createContext();
+    this._context = this._createContext(sampleRate);
 
     sampleRate ||= this._context.sampleRate;
 
@@ -44,9 +44,9 @@ export default class Crunker {
    *
    * @internal
    */
-  private _createContext(): AudioContext {
+  private _createContext(sampleRate: number = 44_100): AudioContext {
     window.AudioContext = window.AudioContext || (window as any).webkitAudioContext || (window as any).mozAudioContext;
-    return new AudioContext();
+    return new AudioContext({sampleRate});
   }
 
   /**
