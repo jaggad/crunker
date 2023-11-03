@@ -46,7 +46,7 @@ export default class Crunker {
    */
   private _createContext(sampleRate: number = 44_100): AudioContext {
     window.AudioContext = window.AudioContext || (window as any).webkitAudioContext || (window as any).mozAudioContext;
-    return new AudioContext({sampleRate});
+    return new AudioContext({ sampleRate });
   }
 
   /**
