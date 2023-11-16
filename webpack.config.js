@@ -11,7 +11,7 @@ module.exports = {
     library: 'Crunker',
     libraryTarget: 'umd',
     umdNamedDefine: true,
-    globalObject: 'typeof self !== \'undefined\' ? self : this',
+    globalObject: "typeof self !== 'undefined' ? self : this",
   },
   devtool: 'source-map',
   module: {
