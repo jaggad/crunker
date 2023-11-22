@@ -395,12 +395,12 @@ export default class Crunker {
    */
   private _interleave(input: AudioBuffer): Float32Array {
     if (input.numberOfChannels === 1) {
-        // No need to interleave channels, just return single channel data to save performance and memory
-        return input.getChannelData(0);
+      // No need to interleave channels, just return single channel data to save performance and memory
+      return input.getChannelData(0);
     }
     const channels = [];
     for (let i = 0; i < input.numberOfChannels; i++) {
-        channels.push(input.getChannelData(i));
+      channels.push(input.getChannelData(i));
     }
     const length = channels.reduce((prev, channelData) => prev + channelData.length, 0);
     const result = new Float32Array(length);
@@ -410,11 +410,11 @@ export default class Crunker {
 
     // for 2 channels its like: [L[0], R[0], L[1], R[1], ... , L[n], R[n]]
     while (index < length) {
-        channels.forEach((channelData) => {
-            result[index++] = channelData[inputIndex];
-        });
+      channels.forEach((channelData) => {
+        result[index++] = channelData[inputIndex];
+      });
 
-        inputIndex++;
+      inputIndex++;
     }
 
     return result;
