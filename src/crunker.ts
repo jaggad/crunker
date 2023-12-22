@@ -58,9 +58,25 @@ export default class Crunker {
   }
 
   /**
-   * Asynchronously fetches multiple audio files and returns an array of AudioBuffers.
+   * Asynchronously fetches multiple audio files and returns an array of AudioBuffers,
+   * splitting into groups of 200 files to avoid resource exhaustion.
    */
   async fetchAudio(...filepaths: CrunkerInputTypes[]): Promise<AudioBuffer[]> {
+    const buffers: AudioBuffer[] = [];
+    const groups = Math.ceil(filepaths.length / 200);
+
+    for (let i = 0; i < groups; i++) {
+      const group = filepaths.slice(i * 200, (i + 1) * 200);
+      buffers.push(...(await this._fetchAudio(...group)));
+    }
+
+    return buffers;
+  }
+
+  /**
+   * Asynchronously fetches multiple audio files and returns an array of AudioBuffers.
+   */
+  private async _fetchAudio(...filepaths: CrunkerInputTypes[]): Promise<AudioBuffer[]> {
     return await Promise.all(
       filepaths.map(async (filepath) => {
         let buffer: ArrayBuffer;
