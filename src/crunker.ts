@@ -40,7 +40,7 @@ export default class Crunker {
    * If `sampleRate` is not defined, it will auto-select an appropriate sample rate
    * for the device being used.
    */
-  constructor({ sampleRate, concurrentNetworkRequests }: Partial<CrunkerConstructorOptions> = {}) {
+  constructor({ sampleRate, concurrentNetworkRequests = 200 }: Partial<CrunkerConstructorOptions> = {}) {
     this._context = this._createContext(sampleRate);
 
     sampleRate ||= this._context.sampleRate;
