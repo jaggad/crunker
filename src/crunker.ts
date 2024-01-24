@@ -5,6 +5,14 @@ export interface CrunkerConstructorOptions {
    * @default 44100
    */
   sampleRate: number;
+  /**
+   * Maximum number of concurrent network requests to use while fetching audio. Requests will be batched into groups of this size.
+   *
+   * Anything much higher than the default can cause issues in web browsers. You may wish to lower it for low-performance devices.
+   *
+   * @default 200
+   */
+  concurrentNetworkRequests: number;
 }
 
 export type CrunkerInputTypes = string | File | Blob;
@@ -23,6 +31,7 @@ export interface ExportedCrunkerAudio {
  */
 export default class Crunker {
   private readonly _sampleRate: number;
+  private readonly _concurrentNetworkRequests: number;
   private readonly _context: AudioContext;
 
   /**
@@ -31,12 +40,13 @@ export default class Crunker {
    * If `sampleRate` is not defined, it will auto-select an appropriate sample rate
    * for the device being used.
    */
-  constructor({ sampleRate }: Partial<CrunkerConstructorOptions> = {}) {
+  constructor({ sampleRate, concurrentNetworkRequests = 200 }: Partial<CrunkerConstructorOptions> = {}) {
     this._context = this._createContext(sampleRate);
 
     sampleRate ||= this._context.sampleRate;
 
     this._sampleRate = sampleRate;
+    this._concurrentNetworkRequests = concurrentNetworkRequests;
   }
 
   /**
@@ -59,8 +69,25 @@ export default class Crunker {
 
   /**
    * Asynchronously fetches multiple audio files and returns an array of AudioBuffers.
+   *
+   * Network requests are batched, and the size of these batches can be configured with the `concurrentNetworkRequests` option in the Crunker constructor.
    */
   async fetchAudio(...filepaths: CrunkerInputTypes[]): Promise<AudioBuffer[]> {
+    const buffers: AudioBuffer[] = [];
+    const groups = Math.ceil(filepaths.length / this._concurrentNetworkRequests);
+
+    for (let i = 0; i < groups; i++) {
+      const group = filepaths.slice(i * this._concurrentNetworkRequests, (i + 1) * this._concurrentNetworkRequests);
+      buffers.push(...(await this._fetchAudio(...group)));
+    }
+
+    return buffers;
+  }
+
+  /**
+   * Asynchronously fetches multiple audio files and returns an array of AudioBuffers.
+   */
+  private async _fetchAudio(...filepaths: CrunkerInputTypes[]): Promise<AudioBuffer[]> {
     return await Promise.all(
       filepaths.map(async (filepath) => {
         let buffer: ArrayBuffer;
