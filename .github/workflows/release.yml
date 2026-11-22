@@ -1,0 +1,60 @@
+name: Release
+
+# Publishing a GitHub release publishes the same version to npm. npm trusts this
+# workflow directly (trusted publishing), so no npm token exists anywhere, and
+# every version carries a provenance statement linking it to this commit.
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+env:
+  YARN_ENABLE_SCRIPTS: false
+
+jobs:
+  publish:
+    name: Publish to npm
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Install Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '22'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Check the release tag matches package.json
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          version="$(node -p "require('./package.json').version")"
+          if [ "${TAG#v}" != "${version}" ]; then
+            echo "release tag ${TAG} does not match package.json version ${version}"
+            exit 1
+          fi
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Install Chrome
+        uses: browser-actions/setup-chrome@48ad923757ca74d66703209fe939badbdf80f2f4 # v2.2.0
+
+      - name: Run tests
+        run: yarn run test
+
+      # trusted publishing needs npm 11.5.1 or later, newer than the one Node 22 ships.
+      - name: Update npm
+        run: npm install -g npm@11
+
+      - name: Publish
+        run: npm publish --access public
