@@ -1,8 +1,10 @@
 name: Release
 
-# Publishing a GitHub release publishes the same version to npm. npm trusts this
+# Publishing a GitHub release stages the same version on npm. npm trusts this
 # workflow directly (trusted publishing), so no npm token exists anywhere, and
-# every version carries a provenance statement linking it to this commit.
+# every version carries a provenance statement linking it to this commit. The
+# trust relationship only allows staging, so a version goes public only once a
+# maintainer approves it with 2FA.
 on:
   release:
     types: [published]
@@ -52,9 +54,12 @@ jobs:
       - name: Run tests
         run: yarn run test
 
-      # trusted publishing needs npm 11.5.1 or later, newer than the one Node 22 ships.
+      # staged publishing needs npm 12, newer than the one Node 22 ships.
       - name: Update npm
-        run: npm install -g npm@11
+        run: npm install -g npm@12
 
-      - name: Publish
-        run: npm publish --access public
+      - name: Build
+        run: yarn run build
+
+      - name: Stage for publishing
+        run: npm stage publish
