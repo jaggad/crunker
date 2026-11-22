@@ -360,7 +360,7 @@ export default class Crunker {
    *
    * @internal
    */
-  private _writeHeaders(buffer: Float32Array, numOfChannels: number, sampleRate: number): DataView {
+  private _writeHeaders(buffer: Float32Array, numOfChannels: number, sampleRate: number): DataView<ArrayBuffer> {
     const bitDepth = 16;
     const bytesPerSample = bitDepth / 8;
     const sampleSize = numOfChannels * bytesPerSample;
@@ -395,7 +395,11 @@ export default class Crunker {
    *
    * @internal
    */
-  private _floatTo16BitPCM(dataview: DataView, buffer: Float32Array, offset: number): DataView {
+  private _floatTo16BitPCM(
+    dataview: DataView<ArrayBuffer>,
+    buffer: Float32Array,
+    offset: number
+  ): DataView<ArrayBuffer> {
     for (let i = 0; i < buffer.length; i++, offset += 2) {
       const tmp = Math.max(-1, Math.min(1, buffer[i]));
       dataview.setInt16(offset, tmp < 0 ? tmp * 0x8000 : tmp * 0x7fff, true);

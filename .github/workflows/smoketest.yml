@@ -4,6 +4,13 @@ on:
   - push
   - pull_request
 
+permissions:
+  contents: read
+
+env:
+  # the build needs no install scripts, so dependencies get no chance to run code here.
+  YARN_ENABLE_SCRIPTS: false
+
 jobs:
   check_formatting:
     name: Check formatting
@@ -11,12 +18,14 @@ jobs:
 
     steps:
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Install Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version: '16'
+          node-version: '22'
           cache: 'yarn'
 
       - name: Install dependencies
@@ -31,18 +40,20 @@ jobs:
 
     steps:
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Install Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version: '16'
+          node-version: '22'
           cache: 'yarn'
 
       - name: Install dependencies
         run: yarn install --immutable
 
-      - name: Check formatting
+      - name: Build
         run: yarn run build
 
   run_tests:
@@ -51,19 +62,21 @@ jobs:
 
     steps:
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Install Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version: '16'
+          node-version: '22'
           cache: 'yarn'
 
       - name: Install dependencies
         run: yarn install --immutable
 
       - name: Install Chrome
-        uses: browser-actions/setup-chrome@latest
+        uses: browser-actions/setup-chrome@48ad923757ca74d66703209fe939badbdf80f2f4 # v2.2.0
 
       - name: Run tests
         run: yarn run test
