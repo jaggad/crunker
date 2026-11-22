@@ -79,7 +79,7 @@ const onFileInputChange = async (target) => {
 
 - [Beat Builder Machine](examples/client/beatBuilder.html)
 
-# [Graphic Representation of Methods](https://github.com/jackedgson/crunker/issues/16)
+# [Graphic Representation of Methods](https://github.com/jaggad/crunker/issues/16)
 
 ## Merge
 
